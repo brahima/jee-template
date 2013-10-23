@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>fr.leroymerlin.jee</groupId>
+	<artifactId>jeeapp-jee</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<!-- Parent -->
+	<parent>
+		<groupId>fr.leroymerlin.marcopolo.pom</groupId>
+		<artifactId>parent.lmfrv3</artifactId>
+		<version>3.4.17</version>
+	</parent>
+
+	<!-- Description -->
+	<name>jeeapp - parent</name>
+	<description>Projet parent définissant l'ensemble des modules du projet.</description>
+
+	<!-- Subversion -->
+	<!--<scm>
+		<connection>scm:svn:http://svn/svn/lmfr/lmfrv4/projects/lmfrv4-app</connection>
+		<developerConnection>scm:svn:http://svn/svn/lmfr/lmfrv4/projects/lmfrv4-app</developerConnection>
+		<url>http://svn/svn/lmfr/lmfrv4/projects/lmfrv4-app</url>
+	</scm>-->
+
+	<!-- Modules -->
+	<modules>
+		<module>core</module>
+		<!--<module>batch-ws</module>
+		<module>ws-front</module>
+		<module>ws-middle</module>-->
+		<module>ws-mobile</module>
+		<!--<module>rpm</module>-->
+
+		<!-- Module client ws -->
+		<!--<module>ws-front/client</module>
+		<module>ws-middle/client</module>-->
+	</modules>
+
+	<!-- Propriétés -->
+	<properties>
+		<skipTests>true</skipTests>
+		<cobertura.skip>true</cobertura.skip>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<postgresql.version>9.0-801.jdbc4</postgresql.version>
+		<framework.version>1.0.13</framework.version>
+		<alert.manager.version>2.0.4</alert.manager.version>
+		<service-wsgen-resourceDestDir>${project.parent.build.directory}/wsdl</service-wsgen-resourceDestDir>
+		<server.war.url>${server.front.war.url}</server.war.url>
+	</properties>
+
+
+	<!-- Dépendances management -->
+	<dependencyManagement>
+		<dependencies>
+			<!-- Module core -->
+			<dependency>
+				<groupId>fr.leroymerlin.jee</groupId>
+				<artifactId>jeeapp-jee-core</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+			</dependency>
+
+			<!-- Framework modules -->
+			<dependency>
+				<groupId>fr.leroymerlin.fwk</groupId>
+				<artifactId>lmfr-framework-core</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.leroymerlin.fwk</groupId>
+				<artifactId>lmfr-framework-dao</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.leroymerlin.fwk</groupId>
+				<artifactId>lmfr-framework-validation</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.leroymerlin.fwk</groupId>
+				<artifactId>lmfr-framework-jms</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.leroymerlin.fwk</groupId>
+				<artifactId>lmfr-framework-utils</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.leroymerlin.fwk</groupId>
+				<artifactId>lmfr-framework-ws</artifactId>
+				<version>${framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.leroymerlin.fwk</groupId>
+				<artifactId>lmfr-framework-test</artifactId>
+				<version>${framework.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- AlertManager -->
+			<dependency>
+				<groupId>fr.leroymerlin.alertmanager</groupId>
+				<artifactId>alert-manager-client</artifactId>
+				<version>${alert.manager.version}</version>
+			</dependency>
+
+			<!-- Hibernate validator -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>4.1.0.Final</version>
+				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Tests dependencies -->
+			<dependency>
+				<groupId>org.unitils</groupId>
+				<artifactId>unitils-test</artifactId>
+				<version>3.1</version>
+				<exclusions>
+					<!-- Exclusion librairies de persistences -->
+					<exclusion>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate</artifactId>
+					</exclusion>
+					<exclusion>
+						<artifactId>persistence-api</artifactId>
+						<groupId>javax.persistence</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.dbunit</groupId>
+				<artifactId>dbunit</artifactId>
+				<version>2.3.0</version>
+				<exclusions>
+					<exclusion>
+						<!-- Exclus pour éviter multiple slf4j binding -->
+						<artifactId>slf4j-nop</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.mockftpserver</groupId>
+				<artifactId>MockFtpServer</artifactId>
+				<version>2.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.client</groupId>
+				<artifactId>jbossall-client</artifactId>
+				<version>4.2.3.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>jboss.common</groupId>
+				<artifactId>jboss-common-client</artifactId>
+				<version>1.2.1.GA-brew</version>
+			</dependency>
+
+			<!-- Postgresql -->
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Autres -->
+			<dependency>
+				<groupId>javax.activation</groupId>
+				<artifactId>activation</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.8.0.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.16</version>
+			</dependency>
+
+			<!-- Utils -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>3.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>1.3.2</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.5</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>1.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>oro</groupId>
+				<artifactId>oro</artifactId>
+				<version>2.0.8</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.collections</groupId>
+				<artifactId>google-collections</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.4</version>
+			</dependency>
+
+			<!-- XML -->
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+
+			<!-- WebService Security -->
+			<dependency>
+				<groupId>org.apache.ws.security</groupId>
+				<artifactId>wss4j</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>spring-ws-security</artifactId>
+				<version>2.1.0.RELEASE</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- EhCache -->
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache-core</artifactId>
+				<version>2.6.6</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-api</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- JMS -->
+			<dependency>
+				<groupId>jms</groupId>
+				<artifactId>jms</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.messaging.mq</groupId>
+				<artifactId>imq</artifactId>
+				<version>4.4.2</version>
+			</dependency>
+			
+		<!-- Call httpClient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+		<!-- REST / JSON -->
+		<!-- Jersey -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.8</version>
+		</dependency>
+
+		<!-- Jersey + Spring -->
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-spring</artifactId>
+			<version>1.5</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- Dépendances -->
+	<dependencies>
+		<!-- Framework modules -->
+		<dependency>
+			<groupId>fr.leroymerlin.fwk</groupId>
+			<artifactId>lmfr-framework-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>fr.leroymerlin.fwk</groupId>
+			<artifactId>lmfr-framework-utils</artifactId>
+		</dependency>
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>fr.leroymerlin.fwk</groupId>
+			<artifactId>lmfr-framework-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.unitils</groupId>
+			<artifactId>unitils-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Propriétés par défaut pour la génération des WSDL -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jaxws-maven-plugin</artifactId>
+					<dependencies>
+						<dependency>
+							<groupId>com.sun.xml.ws</groupId>
+							<artifactId>jaxws-tools</artifactId>
+							<version>${jaxws-tools.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<!-- Ressources à inclure -->
+		<resources>
+			<resource>
+				<directory>src/main/config</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/config</directory>
+				<filtering>true</filtering>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+	</build>
+
+</project>

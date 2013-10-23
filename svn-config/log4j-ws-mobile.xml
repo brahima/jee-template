@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+
+<log4j:configuration debug="false">
+
+	<!-- Console : local ou dev uniquement -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS z} [%p] %c - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- Fichier pour ws-jeeapp-jee -->
+	<appender name="file" class="org.apache.log4j.FileAppender">
+		<param name="File"
+			value="/home3/jboss4_log/wsmobile/jeeapp-jee/jeeapp-jee-ws-middle.log" />
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS z} [%p] %c - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- LOG LEVELS -->
+	<logger name="LMFRV3">
+		<level value="INFO" />
+	</logger>
+
+	<!-- Limit the org category to ERROR as its DEBUG is verbose -->
+	<logger name="org">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="net">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="com">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="fr">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="fr.leroymerlin.jeeapp">
+		<level value="INFO" />
+	</logger>
+
+	<!-- ROOT -->
+	<root>
+		<level value="fr.leroymerlin" />
+		<appender-ref ref="INFO" />
+	</root>
+</log4j:configuration>

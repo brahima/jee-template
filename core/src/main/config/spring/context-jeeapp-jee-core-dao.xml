@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:fwk="http://fwk.leroymerlin.fr/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://fwk.leroymerlin.fr/schema/core 
+ 		   http://fwk.leroymerlin.fr/schema/core/fwk-core.xsd"           
+	default-autowire="byName">
+
+	<!-- Database support -->
+	<!--<bean id="jeeapp-spring.dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:/JeeDS" />
+	</bean>
+
+	<fwk:config id="ehcacheConfig" filename="env:ehcache.xml"
+		applicationName="jeeapp-jee" type="resource" />
+
+	<bean id="jeeapp-spring.entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="jeeapp-spring.dataSource" />
+		<property name="persistenceUnitName" value="jeeapp-spring.persistenceUnit" />
+		<property name="persistenceXmlLocation"
+			value="classpath:/META-INF/persistence-jeeapp-jee-core.xml" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="database" value="POSTGRESQL" />
+			</bean>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="javax.persistence.sharedCache.mode" value="ENABLE_SELECTIVE" />
+				<entry key="hibernate.cache.default_cache_concurrency_strategy"
+					value="read-write" />
+				<entry key="hibernate.cache.region.factory_class"
+					value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory" />
+				<entry key="hibernate.cache.use_second_level_cache" value="true" />
+				<entry key="hibernate.cache.use_query_cache" value="true" />
+				<entry key="hibernate.generate_statistics" value="true" />
+				<entry key="net.sf.ehcache.configurationResourceName" value="file:#{ehcacheConfig.path}" />
+			</map>
+		</property>
+	</bean>-->
+
+	<!-- Transaction -->
+	<!--<bean id="jeeapp-spring.transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="jeeapp-spring.entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="jeeapp-spring.transactionManager" />-->
+
+	<!-- Définition des beans Spring par annotation -->
+	<!--<context:annotation-config />-->
+</beans>

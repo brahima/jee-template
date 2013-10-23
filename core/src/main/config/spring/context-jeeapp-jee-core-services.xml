@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:fwk="http://fwk.leroymerlin.fr/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://fwk.leroymerlin.fr/schema/core 
+ 		   http://fwk.leroymerlin.fr/schema/core/fwk-core.xsd"           
+	default-autowire="byName">
+
+	<!-- Bean d'accès au Contexte -->
+	<bean id="jeeapp-spring.applicationContextHolder" class="fr.leroymerlin.fwk.utils.spring.ApplicationContextHolder" />
+
+	<bean id="jeeapp-spring.errorsFileLoader"
+		class="fr.leroymerlin.fwk.core.exception.spring.ErrorMessagesSpringLoader">
+		<constructor-arg index="0">
+			<list>
+				<value>error-codes-jeeapp-jee-core_fr_FR</value>
+			</list>
+		</constructor-arg>
+		<!-- <constructor-arg index="1"> <value>fr_FR</value> </constructor-arg> -->
+		<constructor-arg index="1">
+			<value>jeeapp-spring</value>
+		</constructor-arg>
+	</bean>
+
+	<!-- scan du projet -->
+	<context:component-scan base-package="fr.leroymerlin.jeeapp.core" />
+</beans>

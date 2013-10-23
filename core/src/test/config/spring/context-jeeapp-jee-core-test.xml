@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:fwk="http://fwk.leroymerlin.fr/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://fwk.leroymerlin.fr/schema/core 
+ 		   http://fwk.leroymerlin.fr/schema/core/fwk-core.xsd"
+	default-autowire="byName">
+
+	<!-- Mocks -->
+	<bean id="jeeapp-spring.mockFactory" class="fr.leroymerlin.fwk.test.mock.MockFactory" />
+
+	<!-- Initialisation Log4J -->
+	<bean id="logManager" class="fr.leroymerlin.fwk.utils.log.LogManager">
+		<constructor-arg>
+			<fwk:config filename="env:log4j-test.xml" applicationName="jeeapp-jee"
+				type="resource" />
+		</constructor-arg>
+	</bean>
+
+	<!-- Bean d'accès au Contexte -->
+	<bean id="jeeapp-spring.applicationContextHolder" class="fr.leroymerlin.fwk.utils.spring.ApplicationContextHolder" />
+
+	<fwk:config id="dbProps" filename="env:database-jdbc.properties"
+		applicationName="jeeapp-jee" type="resource" />
+
+	<!-- Propriétés bdd -->
+	<bean id="jeeapp-spring.databaseProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="file:#{dbProps.path}" />
+		<property name="placeholderPrefix" value="$db{" />
+	</bean>
+
+	<!-- Database support -->
+	<bean id="jeeapp-spring.dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="$db{{database.url}" />
+		<property name="username" value="$db{{database.username}" />
+		<property name="password" value="$db{{database.password}" />
+	</bean>
+
+	<fwk:config id="ehcacheConfig" filename="env:ehcache.xml"
+		applicationName="jeeapp-jee" type="resource" />
+
+	<bean id="jeeapp-spring.entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="jeeapp-spring.dataSource" />
+		<property name="persistenceUnitName" value="jeeapp-spring.persistenceUnit" />
+		<property name="persistenceXmlLocation"
+			value="classpath:/META-INF/persistence-jeeapp-jee-core-test.xml" />
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.unitils.orm.jpa.util.provider.hibernate.UnitilsHibernateJpaVendorAdapter">
+				<property name="database" value="POSTGRESQL" />
+			</bean>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="javax.persistence.sharedCache.mode" value="ENABLE_SELECTIVE" />
+				<entry key="hibernate.cache.default_cache_concurrency_strategy"
+					value="read-write" />
+				<entry key="hibernate.cache.region.factory_class"
+					value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory" />
+				<entry key="hibernate.cache.use_second_level_cache" value="true" />
+				<entry key="hibernate.cache.use_query_cache" value="true" />
+				<entry key="hibernate.generate_statistics" value="true" />
+				<entry key="net.sf.ehcache.configurationResourceName" value="file:#{" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Transaction -->
+	<bean id="jeeapp-spring.transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="jeeapp-spring.entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="jeeapp-spring.transactionManager" />
+
+	<!-- Chargement du bundle d'erreurs : petite astuce pour palier le problème 
+		de locale sur le serveur hudson. -->
+	<bean id="jeeapp-spring.errorsFileLoader"
+		class="fr.leroymerlin.fwk.core.exception.spring.ErrorMessagesSpringLoader">
+		<constructor-arg index="0">
+			<list>
+				<value>error-codes-jeeapp-jee-core_fr_FR</value>
+			</list>
+		</constructor-arg>
+		<!-- <constructor-arg index="1"> <value>fr_FR</value> </constructor-arg> -->
+		<constructor-arg index="1">
+			<value>jeeapp-spring</value>
+		</constructor-arg>
+	</bean>
+
+	<!-- Définition des beans Spring par annotation -->
+	<context:annotation-config />
+
+	<!-- scan du projet -->
+	<context:component-scan base-package="fr.leroymerlin.jeeapp.core" />
+</beans>

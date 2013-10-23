@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<datasources>
+	<local-tx-datasource>
+		<jndi-name>JeeDS</jndi-name>
+		<connection-url>jdbc:postgresql://rfrlmdbweba04:5432/jeeapp-db</connection-url>
+		<driver-class>org.postgresql.Driver</driver-class>
+		<user-name>lmfruser</user-name>
+		<password>59w@!82@</password>
+		<new-connection-sql>select now();</new-connection-sql>
+		<check-valid-connection-sql>select now();</check-valid-connection-sql>
+		<idle-timeout-minutes>4</idle-timeout-minutes>
+		<min-pool-size>0</min-pool-size>
+		<max-pool-size>10</max-pool-size>
+		<blocking-timeout-millis>5000</blocking-timeout-millis>
+		<metadata>
+			<type-mapping>PostgreSQL 9.0</type-mapping>
+		</metadata>
+	</local-tx-datasource>
+</datasources>

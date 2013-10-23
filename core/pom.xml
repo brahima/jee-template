@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>fr.leroymerlin.jee</groupId>
+	<artifactId>jeeapp-jee-core</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<!-- Parent -->
+	<parent>
+		<groupId>fr.leroymerlin.jee</groupId>
+		<artifactId>jeeapp-jee</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<!-- Description -->
+	<name>jeeapp - core</name>
+	<description>Module coeur de l'application.</description>
+
+	<properties>
+		<skipTests>false</skipTests>
+		<cobertura.skip>false</cobertura.skip>
+	</properties>
+
+	<!-- Dépendances -->
+	<dependencies>
+		
+		<!-- Framework modules -->
+		<dependency>
+			<groupId>fr.leroymerlin.fwk</groupId>
+			<artifactId>lmfr-framework-dao</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>fr.leroymerlin.fwk</groupId>
+			<artifactId>lmfr-framework-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>fr.leroymerlin.fwk</groupId>
+			<artifactId>lmfr-framework-ws</artifactId>
+		</dependency>
+	
+		<!-- AlertManager -->
+		<dependency>
+			<groupId>fr.leroymerlin.alertmanager</groupId>
+			<artifactId>alert-manager-client</artifactId>
+		</dependency>
+	
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Postgresql -->
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<!-- Utils -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+		<!-- EhCache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+		</dependency>
+	</dependencies>
+	
+</project>
